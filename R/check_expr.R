@@ -23,12 +23,12 @@ check_expr <- function(exprMat, verbose = TRUE) {
 
   ## check whether have Inf ot -Inf
   if (verbose) cli::cli_alert_info("Checking whether have `Inf` or `-Inf` ...")
-  inf_res <- ifelse(min(exprMat)==-Inf | max(exprMat)== Inf, FALSE, TRUE)
+  inf_res <- ifelse(min(exprMat, na.rm = T) == -Inf | max(exprMat, na.rm = T)== Inf, FALSE, TRUE)
   if (verbose) cli::cli_alert_success("Done!")
 
   ## check standard deviation(sd)
   if (verbose) cli::cli_alert_info("Checking the standard deviation ...")
-  sd <- apply(exprMat, 1, function(x) sd(x) == 0)
+  sd <- apply(exprMat, 1, function(x) sd(x, na.rm = T) == 0)
   sd_res <- ifelse(nlevels(as.factor(sd))>1, FALSE, TRUE)
   if (verbose) cli::cli_alert_success("Done!")
 
@@ -40,9 +40,7 @@ check_expr <- function(exprMat, verbose = TRUE) {
     cli::cli_alert_warning(col_yellow("Have some problem:"))
     lid <- cli_ol()
     if (!na_res) cli_li(("Have `NA` in matrix"))
-    if (!is.na(inf_res)) {
-      if (!inf_res) cli_li("Have `Inf` or `-Inf` in matrix")
-    }
+    if (!inf_res) cli_li("Have `Inf` or `-Inf` in matrix")
     if (!sd_res) cli_li("Some vairables in matrix have no variance between samples")
     cli_end(lid)
     return(FALSE)
