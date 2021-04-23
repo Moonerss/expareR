@@ -14,7 +14,7 @@
 #' @examples
 #'
 convet_expr <- function(exprMat, idType = c("ensembl", "entrez", "symbol"), from = "count", to = "tpm",
-                        org = c("human", "mouse"), effLength = NULL, rm_redundancy = "mean") {
+                        org = c("human", "mouse"), effLength = NULL) {
 
   ## check the data format
   if (class(exprMat)!="matrix") exprMat<-as.matrix(exprMat)
