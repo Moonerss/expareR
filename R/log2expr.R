@@ -1,0 +1,34 @@
+#' @title log2 transformation of expression matrix
+#' @description Do the expression matrix needs log2 transformation
+#' @usage log2expr(exprMat)
+#' @param exprMat gene expression matrix with row as genes and sample in the column
+#' @return a gene expression matrix after log2 transformation
+#' @details The function will first check whether the expression matrix has undergone
+#'   log2 transformation; if the expression matrix have done log2 transformation, return
+#'   the raw expression matrix, else do the log2 transformation
+#' @importFrom cli cli_alert_info
+#' @name log2expr
+#' @export
+#'
+#' @examples
+#'   mat <- matrix(sample(1:10, 30, replace = T), ncol = 5)
+#'   log2_mat <- log2expr(exprMat = mat)
+#'   res <- log2expr(exprMat = log2_mat)
+log2expr <- function(exprMat = NULL){
+
+  ## check whether done log2 transformation
+  qx <- as.numeric(quantile(exprMat, c(0., 0.25, 0.5, 0.75, 0.99, 1.0), na.rm=T))
+  loged <- (qx[5] > 100) ||
+    (qx[6]-qx[1] > 50 && qx[2] > 0) ||
+    (qx[2] > 0 && qx[2] < 1 && qx[4] > 1 && qx[4] < 2)
+
+  if (loged) {
+    exprMat[exprMat < 0] <- 0
+    exprMat <- log2(exprMat+1)
+    cli::cli_alert_info("log2 transformation finished!")
+  } else {
+    cli::cli_alert_info("log2 transformation is not necessary.")
+  }
+
+  return(exprMat)
+}
