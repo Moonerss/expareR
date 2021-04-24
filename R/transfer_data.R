@@ -11,11 +11,11 @@
 transfer_data <- function(exprMat, data_type = c("all", "NA", "Inf"), data_to = 0) {
   data_type <- match.arg(data_type)
   if (data_type == "all") {
-    res <- apply(exprMat, 1, function(x) {ifelse(is.na(x) | is.infinite(x), data_to, x)})
+    res <- apply(exprMat, 2, function(x) {ifelse(is.na(x) | is.infinite(x), data_to, x)})
   } else if (data_type == "NA") {
-    res <- apply(exprMat, 1, function(x) {ifelse(is.na(x), data_to, x)})
+    res <- apply(exprMat, 2, function(x) {ifelse(is.na(x), data_to, x)})
   } else if (data_type == "Inf") {
-    res <- apply(exprMat, 1, function(x) {ifelse(is.infinite(x), data_to, x)})
+    res <- apply(exprMat, 2, function(x) {ifelse(is.infinite(x), data_to, x)})
   }
   return(res)
 }
