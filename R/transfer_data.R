@@ -1,9 +1,9 @@
 #' @title Transform the expression matrix to normal quality
 #' @description Transform the expression matrix  with bad quality to normal quality
 #' @name transfer_data
-#' @param data a gene or probe data frame like \code{arrayMat} in \code{\link{anno_array}} or \code{exprMat} in \code{\link{remove_duplicate}}
+#' @param exprMat a gene or probe data frame like \code{arrayMat} in \code{\link{anno_expr}} or \code{exprMat} in \code{\link{remove_duplicate}}
 #' @param gene_col The column name or number of geneid in \code{exprMat}. Dafult is NULL, choose the first column as geneid.
-#' @param transfer_type the data type to change, NA, Inf or all
+#' @param data_type the data type to change, NA, Inf or all
 #' @param data_to transform data into 0 or 1, or others, default is 0
 #' @return return minipulated data
 #' @export

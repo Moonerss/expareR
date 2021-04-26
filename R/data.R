@@ -13,7 +13,6 @@
 #' gene length information of human
 #'
 #' The gene length and id information of human acessed from ensembl
-#' @format
 #' @source \url{www.ensembl.org}
 #'
 "human"
@@ -21,7 +20,6 @@
 #' gene length information of mouse
 #'
 #' The gene length and id information of mouse acessed from ensembl
-#' @format
 #' @source \url{www.ensembl.org}
 #'
 "mouse"

@@ -1,0 +1,120 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# expareR
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of expareR is to quickly prepare the expression matrix for transcriptomics analysis.
+
+## Installation
+
+You can install the released version of `expareR` from [github](https://github.com/Moonerss/expareR) with:
+
+``` {r eval=FALSE}
+library(remotes)
+remotes::install_github("Moonerss/expareR")
+```
+
+## Example
+
+### For the RNA-seq data
+
+```{r}
+library(expareR)
+library(readr)
+library(magrittr)
+
+## read count matrix
+count_expr <- read_delim(system.file("extdata", "count_expr.txt", package = "expareR"), delim = "\t")
+head(count_expr[,1:5])
+```
+
+first, you can convert the `count` to `tpm`:
+```{r}
+# count to tpm
+tpm_mat <- convet_expr(exprMat = count_expr, gene_col = "symbol", idType = "symbol", from = "count", to = "tpm", org = "human", effLength = NULL)
+```
+
+second, check the data quality after convert
+```{r}
+## add bad data
+tpm_mat[2,2] = NA
+tpm_mat[3,3] = Inf
+
+## check the data quality of count matrix
+check_expr(tpm_mat, verbose = F)
+```
+
+if the expression matrix have `NA` or `Inf` value, you can change them:
+```{r}
+transed_mat <- transfer_data(tpm_mat, gene_col = "genes", data_type = c("all", "NA", "Inf"), data_to = 0)
+```
+
+and then, you can remove dupliacted genes by the expression, or combine the gene expression
+```{r}
+# remove duplicated genes by choose the one with bigger mean value
+filter_dat <- remove_duplicate(transed_mat, gene_col = "genes", method = "order", value = "mean")
+
+# remove duplicated genes by using the mean value of multiple gene instead of raw value
+filter_dat <- remove_duplicate(transed_mat, gene_col = "genes", method = "combin", value = "mean")
+```
+
+finally, you log2 transformed the tpm matrix
+```{r}
+# log2 transformed
+log2_mat <- log2expr(filter_dat)
+head(log2_mat[,1:4])
+```
+
+
+instead, you can use pipe connect the command
+```{r}
+log2_mat <- count_expr %>% 
+  convet_expr(gene_col = "symbol", idType = "symbol", from = "count", to = "tpm", org = "human", effLength = NULL) %>% 
+  remove_duplicate(method = "order", value = "mean") %>% 
+  transfer_data(data_type = "all", data_to = 0) %>% 
+  log2expr()
+```
+```{r}
+head(log2_mat[,1:4])
+```
+
+
+### For the array data
+
+If you need to process array data, you can use `anno_expr` to transform probe to genes
+```{r}
+## probe expression
+array_expr <- read_delim(system.file("extdata", "array_expr.txt", package = "expareR"), delim = "\t")
+
+## load annotation file 
+data("anno_hug133plus2")
+
+annotated_expr <- anno_expr(arrayMat = array_expr, anno = anno_hug133plus2, probe_col = "probe", symbol = "symbol", probe = "probe_id")
+```
+and you can process the data like RNA-seq analysis
+
+```{r}
+log2_array <- array_expr %>% 
+  anno_expr(anno = anno_hug133plus2, probe_col = "probe", symbol = "symbol", probe = "probe_id") %>% 
+  remove_duplicate(method = "order", value = "mean") %>% 
+  transfer_data(data_type = "all", data_to = 0) %>% 
+  log2expr()
+
+head(log2_array[,1:4])
+```
+

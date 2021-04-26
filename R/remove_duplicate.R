@@ -2,13 +2,16 @@
 #' @description Remove duplicate gene symbol on a gene expression data
 #' @name remove_duplicate
 #' @param exprMat A data frame with geneid as as first column and other columns are expression of gene in each samples.
-#' @param symbol_col The column name or number of geneid in \code{exprMat}. Dafult is NULL, choose the first column as geneid.
-#' @param method method used to filter duplicate genes; default is mean value
+#' @param gene_col The column name or number of geneid in \code{exprMat}. Dafult is NULL, choose the first column as geneid.
+#' @param method method used to filter duplicate genes; filter duplicated gene by the mean of median value, or combine the value by mean or median value instead
+#' @param value use mean of median value as reference
 #' @details We use the mean or median value of the duplicated genes as the expression value of this gene.
 #' @importFrom tibble rownames_to_column column_to_rownames
 #' @importFrom dplyr group_by ungroup mutate pull
 #' @importFrom tidyr nest
 #' @importFrom purrr map
+#' @importFrom rlang .data
+#' @importFrom stats median
 #' @export
 #' @return return a expression matrix
 #'
@@ -40,12 +43,12 @@ remove_duplicate <- function(exprMat, gene_col = NULL, method = c("order", "comb
     # filter genes
     if (method == "order") {
       if (value == "mean") {
-        meta_expr <- meta_expr %>% mutate(expr = purrr::map(data, function(x) {
+        meta_expr <- meta_expr %>% mutate(expr = purrr::map(.data$data, function(x) {
           order_x <- x[order(apply(x, 1, mean, na.rm = T), decreasing = T),]
           order_x <- order_x[1,]
         }))
       } else if (value == "median") {
-        meta_expr <- meta_expr %>% mutate(expr = purrr::map(data, function(x) {
+        meta_expr <- meta_expr %>% mutate(expr = purrr::map(.data$data, function(x) {
           order_x <- x[order(apply(x, 1, median, na.rm = T), decreasing = T),]
           order_x <- order_x[1,]
         }))

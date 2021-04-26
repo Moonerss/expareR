@@ -1,6 +1,6 @@
 #' @title log2 transformation of expression matrix
 #' @description Do the expression matrix needs log2 transformation
-#' @usage log2expr(exprMat)
+#' @usage log2expr(exprMat, gene_col = NULL)
 #' @param exprMat gene expression matrix with row as genes and sample in the column
 #' @param gene_col column name or number of gene id, default is NULL, choose the first column
 #' @return a gene expression matrix after log2 transformation
@@ -8,13 +8,10 @@
 #'   log2 transformation; if the expression matrix have done log2 transformation, return
 #'   the raw expression matrix, else do the log2 transformation
 #' @importFrom cli cli_alert_info
+#' @importFrom stats quantile
 #' @name log2expr
 #' @export
 #'
-#' @examples
-#'   mat <- matrix(sample(1:10, 30, replace = T), ncol = 5)
-#'   log2_mat <- log2expr(exprMat = mat)
-#'   res <- log2expr(exprMat = log2_mat)
 log2expr <- function(exprMat = NULL, gene_col = NULL){
 
   ## get gene expression

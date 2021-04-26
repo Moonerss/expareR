@@ -4,10 +4,12 @@
 \alias{log2expr}
 \title{log2 transformation of expression matrix}
 \usage{
-log2expr(exprMat)
+log2expr(exprMat, gene_col = NULL)
 }
 \arguments{
 \item{exprMat}{gene expression matrix with row as genes and sample in the column}
+
+\item{gene_col}{column name or number of gene id, default is NULL, choose the first column}
 }
 \value{
 a gene expression matrix after log2 transformation
@@ -19,9 +21,4 @@ Do the expression matrix needs log2 transformation
 The function will first check whether the expression matrix has undergone
 log2 transformation; if the expression matrix have done log2 transformation, return
 the raw expression matrix, else do the log2 transformation
-}
-\examples{
-  mat <- matrix(sample(1:10, 30, replace = T), ncol = 5)
-  log2_mat <- log2expr(exprMat = mat)
-  res <- log2expr(exprMat = log2_mat)
 }

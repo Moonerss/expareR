@@ -2,7 +2,7 @@ Package: expareR
 Type: Package
 Title: Prepare the expression matrix in R
 Version: 0.1.0
-Author@R: 
+Authors@R: 
     person(given = "Erjie",
            family = "Zhao",
            email = "2055469819@qq.com",
@@ -14,7 +14,14 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     cli,
-    magrittr
+    dplyr,
+    magrittr,
+    purrr,
+    rlang,
+    stats,
+    tibble,
+    tidyr,
+    utils
 Depends: 
     R (>= 2.10)
 Roxygen: list(markdown = TRUE)

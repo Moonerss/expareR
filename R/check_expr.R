@@ -1,7 +1,7 @@
 #' @title Check the data quality of expression matrix
 #' @description Check the expression matrix whether need other process
 #' @name check_expr
-#' @param data a gene or probe data frame like \code{arrayMat} in \code{\link{anno_array}} or \code{exprMat} in \code{\link{remove_duplicate}}
+#' @param data a gene or probe data frame like \code{arrayMat} in \code{\link{anno_expr}} or \code{exprMat} in \code{\link{remove_duplicate}}
 #' @param id_col The column name or number of geneid or probe id. Dafult is NULL, choose the first column as id.
 #' @param verbose output other useful information, default TRUE.
 #' @details The expression matrix will be checked for three task:
@@ -12,6 +12,7 @@
 #'      \item check whether have duplicated genes
 #'   }
 #'   if have problem, return FALSE, else no problem return TRUE.
+#' @importFrom cli cli_end cli_li cli_ol col_red col_yellow
 #' @return return a logical value.
 #' @export
 
