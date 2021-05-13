@@ -53,7 +53,7 @@ first, you can convert the `count` to `tpm`:
 
 ``` r
 # count to tpm
-tpm_mat <- convet_expr(exprMat = count_expr, gene_col = "symbol", idType = "symbol", from = "count", to = "tpm", org = "human", effLength = NULL)
+tpm_mat <- convert_expr(exprMat = count_expr, gene_col = "symbol", idType = "symbol", from = "count", to = "tpm", org = "human", effLength = NULL)
 #> !<U+00A0>11 gene can't be matched, filtering it ...
 #> Converting count to tpm ...
 ```
@@ -113,7 +113,7 @@ instead, you can use pipe connect the command
 
 ``` r
 log2_mat <- count_expr %>% 
-  convet_expr(gene_col = "symbol", idType = "symbol", from = "count", to = "tpm", org = "human", effLength = NULL) %>% 
+  convert_expr(gene_col = "symbol", idType = "symbol", from = "count", to = "tpm", org = "human", effLength = NULL) %>% 
   remove_duplicate(method = "order", value = "mean") %>% 
   transfer_data(data_type = "all", data_to = 0) %>% 
   log2expr()
