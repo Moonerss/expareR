@@ -3,7 +3,7 @@
 export("%>%")
 export(anno_expr)
 export(check_expr)
-export(convet_expr)
+export(convert_expr)
 export(log2expr)
 export(remove_duplicate)
 export(transfer_data)

@@ -2,10 +2,9 @@
 % Please edit documentation in R/convert_expr.R
 \name{convert_expr}
 \alias{convert_expr}
-\alias{convet_expr}
 \title{Convert read counts to transcripts per million (TPM)}
 \usage{
-convet_expr(
+convert_expr(
   exprMat,
   idType = c("ensembl", "entrez", "symbol"),
   gene_col = NULL,
