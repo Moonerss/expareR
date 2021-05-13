@@ -12,7 +12,7 @@
 #'    information stored in this package.
 #' @export
 #'
-convet_expr <- function(exprMat, idType = c("ensembl", "entrez", "symbol"), gene_col = NULL, from = "count", to = "tpm",
+convert_expr <- function(exprMat, idType = c("ensembl", "entrez", "symbol"), gene_col = NULL, from = "count", to = "tpm",
                         org = c("human", "mouse"), effLength = NULL) {
 
   ## get the Organism
@@ -102,7 +102,7 @@ fpkm_to_tpm <- function(fpkm) {
 }
 
 #---convert count to FPKM---
-count_to_fpkm <- function(counts, lengths) {
+counts_to_fpkm <- function(counts, lengths) {
   exp(log(counts) + log(1e9) - log(lengths) - log(sum(counts)) )
 }
 
